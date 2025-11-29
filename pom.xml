@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mathdenizi</groupId>
-	<artifactId>project-template</artifactId>
+	<artifactId>clear-note-ai</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>project-template</name>
-	<description>project-template</description>
+	<name>clear-note-ai</name>
+	<description>clear-note-ai</description>
 	<url/>
 	<licenses>
 		<license/>

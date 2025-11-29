@@ -1,12 +1,9 @@
 package com.mathdenizi.notes.models;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-/**
- * Created by mathdenizi
- * Date: 27.06.25
- */
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 public class Note {
@@ -18,4 +15,11 @@ public class Note {
     private String content;
 
     private String ownerUsername;
+
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

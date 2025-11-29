@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProjectTemplateApplication {
+public class ClearNoteAiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjectTemplateApplication.class, args);
+		SpringApplication.run(ClearNoteAiApplication.class, args);
 	}
 
 }
