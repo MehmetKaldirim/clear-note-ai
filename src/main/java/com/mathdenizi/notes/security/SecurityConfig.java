@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .cors(withDefaults()) // EKLENDİ: CORS desteği için
                 .csrf(csrf ->
                 csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/api/auth/public/**")
+                        .ignoringRequestMatchers("/api/auth/public/**", "/api/ai/**")
         );
         //http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests)
@@ -72,7 +72,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/csrf-token").permitAll()
                         .requestMatchers("/api/auth/public/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
-                .anyRequest().authenticated())
+                        .requestMatchers("/api/ai/**").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> {
                     oauth2.successHandler(oAuth2LoginSuccessHandler);
                  });
