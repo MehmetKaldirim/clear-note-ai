@@ -1,7 +1,7 @@
 package com.mathdenizi.notes.controllers;
 
 import com.mathdenizi.notes.models.examples.*;
-import com.mathdenizi.notes.security.services.OpenAIService;
+import com.mathdenizi.notes.services.OpenAIService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

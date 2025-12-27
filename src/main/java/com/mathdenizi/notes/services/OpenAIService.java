@@ -1,4 +1,4 @@
-package com.mathdenizi.notes.security.services;
+package com.mathdenizi.notes.services;
 
 import com.mathdenizi.notes.models.examples.*;
 

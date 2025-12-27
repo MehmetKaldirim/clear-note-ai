@@ -1,7 +1,8 @@
-package com.mathdenizi.notes.security.services;
+package com.mathdenizi.notes.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mathdenizi.notes.models.examples.*;
+import com.mathdenizi.notes.services.OpenAIService;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -35,6 +36,18 @@ public class OpenAIServiceImpl implements OpenAIService {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Override
+    public GetCapitalWithInfoResponse getCapitalWithInfo(GetCapitalRequest getCapitalRequest) {
+        BeanOutputConverter<GetCapitalWithInfoResponse> converter = new BeanOutputConverter<>(GetCapitalWithInfoResponse.class);
+        String format = converter.getFormat();
+
+        PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt);
+        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry(),
+                "format", format));
+        ChatResponse response = chatModel.call(prompt);
+
+        return converter.convert(response.getResult().getOutput().getText());
+    }
 
 
     @Override
@@ -61,18 +74,7 @@ public class OpenAIServiceImpl implements OpenAIService {
         return converter.convert(response.getResult().getOutput().getText());
     }
 
-    @Override
-    public GetCapitalWithInfoResponse getCapitalWithInfo(GetCapitalRequest getCapitalRequest) {
-        BeanOutputConverter<GetCapitalWithInfoResponse> converter = new BeanOutputConverter<>(GetCapitalWithInfoResponse.class);
-        String format = converter.getFormat();
 
-        PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt);
-        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry(),
-                "format", format));
-        ChatResponse response = chatModel.call(prompt);
-
-        return converter.convert(response.getResult().getOutput().getText());
-    }
 
     @Override
     public Answer getAnswer(Question question) {

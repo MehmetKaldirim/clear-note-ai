@@ -1,3 +1,5 @@
+
+
 package com.mathdenizi.notes.security;
 
 import com.mathdenizi.notes.config.OAuth2LoginSuccessHandler;
@@ -15,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +26,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 
 import java.time.LocalDate;
@@ -35,11 +35,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 /**
  * Created by mathdenizi
  * Date: 23.06.25
- */
+*/
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+public class SecurityConfig1 {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -59,12 +59,13 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(withDefaults()) // EKLENDİ: CORS desteği için
-                .csrf(csrf ->
-                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/api/auth/public/**", "/api/ai/**")
-        );
-        //http.csrf(AbstractHttpConfigurer::disable);
+                .cors(withDefaults()); // EKLENDİ: CORS desteği için
+
+                //.csrf(csrf ->
+                //csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //        .ignoringRequestMatchers("/api/auth/public/**", "/api/ai/**","/api/notes/**")
+        //);
+        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests)
                 -> requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // EKLENDİ: Preflight istekleri için
@@ -73,6 +74,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/public/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
                         .requestMatchers("/api/ai/**").permitAll()
+                        .requestMatchers("/api/notes/**").permitAll()
+
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> {
                     oauth2.successHandler(oAuth2LoginSuccessHandler);
